@@ -1,23 +1,23 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-  </div>
+	<div class="hello">
+		<h1>{{ msg }}</h1>
+		<h2>Essential Links</h2>
+	</div>
 </template>
 
 <script>
-export default {
-  name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  },
-  mounted:function(){
-  	this.checkCookie()
-  }
-  methods:{
-  	function getCookie(c_name) {
+	export default {
+		name: 'hello',
+		data() {
+			return {
+				msg: 'Welcome to Your Vue.js App'
+			}
+		},
+		mounted: function() {
+			//this.checkCookie()
+		},
+		methods: {
+			getCookie: function(c_name) {
 				if(document.cookie.length > 0) {
 					c_start = document.cookie.indexOf(c_name + "=")
 					if(c_start != -1) {
@@ -28,16 +28,16 @@ export default {
 					}
 				}
 				return ""
-			}
+			},
 
-			function setCookie(c_name, value, expiredays) {
+			setCookie: function(c_name, value, expiredays) {
 				var exdate = new Date();
 				exdate.setDate(exdate.getDate() + expiredays);
 				document.cookie = c_name + "=" + escape(value) +
 					((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
-			}
+			},
 
-			function checkCookie() {
+			checkCookie: function() {
 				username = getCookie('username')
 				if(username != "") {
 					alert('Welcome again ' + username + '!')
@@ -48,27 +48,28 @@ export default {
 					}
 				}
 			}
-  }
-}
+		}
+	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+	h1,
+	h2 {
+		font-weight: normal;
+	}
+	
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+	
+	li {
+		display: inline-block;
+		padding: 0 10px;
+	}
+	
+	a {
+		color: #42b983;
+	}
 </style>

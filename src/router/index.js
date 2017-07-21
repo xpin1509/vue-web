@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import NewsList from '@/components/NewsList'
 import Pagebar from '@/components/PageBar'
 import Shopcar from '@/components/shopCar'
+import Calendar from '@/components/Calendar'
 
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: '/shopcar',
       name: 'Shopcar',
       component: Shopcar
+    },
+    {
+      path: '/calendar',
+      name: 'Calendar',
+      component: Calendar
     }
     
   ]

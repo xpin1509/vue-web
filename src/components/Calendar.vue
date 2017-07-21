@@ -44,9 +44,9 @@
 			initPage: function() {
 				var date = new Date();
 				this.currentYear = date.getFullYear(); //当前年份
-				this.currentMonth = date.getMonth() + 1 > 10 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1); //当前月份
+				this.currentMonth = date.getMonth() + 1; //当前月份
 				this.currentDay = date.getDate(); //当前日期
-				this.showPage()
+				this.showPage();
 			},
 			showPage: function() {
 				this.preList = [];
@@ -187,6 +187,6 @@
 	.blue {
 		color: #fff;
 		background: #1a89d9;
-		border-radius:20px ;
+		border-radius: 20px;
 	}
 </style>
