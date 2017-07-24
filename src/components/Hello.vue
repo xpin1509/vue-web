@@ -1,7 +1,16 @@
 <template>
 	<div class="hello">
-		<h1>{{ msg }}</h1>
-		<h2>Essential Links</h2>
+		<div class="areaBar">
+			<select name="" class="province_now input-brd">
+				<option value="" v-for="item in province_now">{{item}}</option>
+			</select>
+			<select name="" class="city_now input-brd">
+				<option value="" v-for="item in city_now">{{item}}</option>
+			</select>
+			<select name="" class="county_now input-brd">
+				<option value="" v-for="item in county_now">{{item}}</option>
+			</select>
+		</div>
 	</div>
 </template>
 
@@ -10,13 +19,23 @@
 		name: 'hello',
 		data() {
 			return {
-				msg: 'Welcome to Your Vue.js App'
+				province_now: [],
+				city_now: [],
+				county_now: []
 			}
 		},
 		mounted: function() {
 			//this.checkCookie()
+			this.$nextTick(function() {
+				this.showArea();
+			});
 		},
 		methods: {
+			showArea: function() {
+				this.$http.get('static/mockup/adc-tree.json').then(function(res) {
+					console.log(res.data)
+				})
+			},
 			getCookie: function(c_name) {
 				if(document.cookie.length > 0) {
 					c_start = document.cookie.indexOf(c_name + "=")
@@ -71,5 +90,18 @@
 	
 	a {
 		color: #42b983;
+	}
+	
+	.areaBar {
+		line-height: 30px;
+		text-align: center;
+	}
+	
+	.input-brd {
+		display: inline-block;
+		width: 150px;
+		height: 30px;
+		margin: 10px 10px;
+		border-radius: 5px;
 	}
 </style>
