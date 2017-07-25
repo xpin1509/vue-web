@@ -1,16 +1,20 @@
 <template>
 	<div class="hello">
 		<div class="areaBar">
-			<select name="" class="province_now input-brd">
-				<option value="" v-for="item in province_now">{{item}}</option>
+			<select name="" class="province_now input-brd" @change="provinceChange">
+				<option>省/市</option>
+				<option v-for="item in province_now" :value="item.code">{{item.name}}</option>
 			</select>
-			<select name="" class="city_now input-brd">
-				<option value="" v-for="item in city_now">{{item}}</option>
+			<select name="" class="city_now input-brd" v-on:change="cityChange">
+				<option>市/区</option>
+				<option v-for="item in city_now" :value="item.code">{{item.name}}</option>
 			</select>
 			<select name="" class="county_now input-brd">
-				<option value="" v-for="item in county_now">{{item}}</option>
+				<option>县/市</option>
+				<option v-for="item in county_now"></option>
 			</select>
 		</div>
+
 	</div>
 </template>
 
@@ -21,22 +25,52 @@
 			return {
 				province_now: [],
 				city_now: [],
-				county_now: []
+				county_now: [],
+				data: {},
+				provinceId:0,
+				cityId:0
 			}
 		},
 		mounted: function() {
-			//this.checkCookie()
 			this.$nextTick(function() {
 				this.showArea();
 			});
 		},
 		methods: {
+			selectVal: function(ele) {
+				this.selected = ele.target.value;
+				console.log(ele)
+			},
 			showArea: function() {
+				this.province_now = [];
 				this.$http.get('static/mockup/adc-tree.json').then(function(res) {
-					console.log(res.data)
+					this.data = res.data;
+					for(var key in this.data) {
+						this.province_now.push(this.data[key]);
+					}
 				})
 			},
-			getCookie: function(c_name) {
+			provinceChange: function(e) {
+				this.city_now = [];
+				var code = e.target.value;
+				var citys = this.data[code].children;
+				for(var key in citys) {
+					this.city_now.push(citys[key]);
+				}
+			},
+			cityChange: function(e) {
+				this.county_now = [];
+				var code = e.target.value;
+				if(this.data[code].children){
+					var citys = this.data[code].children;
+					for(var key in citys) {
+						this.county_now.push(citys[key]);
+					}
+				}
+				
+			}
+
+			/*getCookie: function(c_name) {
 				if(document.cookie.length > 0) {
 					c_start = document.cookie.indexOf(c_name + "=")
 					if(c_start != -1) {
@@ -66,7 +100,7 @@
 						setCookie('username', username, 365)
 					}
 				}
-			}
+			}*/
 		}
 	}
 </script>
