@@ -29,7 +29,7 @@
 				data: {},
 				provinceId: 0,
 				cityId: 0,
-				showCounty: false
+				showCounty: true
 			}
 		},
 		mounted: function() {
@@ -48,9 +48,14 @@
 				})
 			},
 			provinceChange: function(e) {
-				this.showCounty = false;
+				var twoCitys = ['110000','120000', '310000','500000','710000','810000','820000'];
 				this.city_now = [];
 				this.provinceId = e.target.value;
+				if(twoCitys.indexOf(this.provinceId) > -1){
+					this.showCounty = false;
+				}else{
+					this.showCounty = true;
+				}
 				var citys = this.data[this.provinceId].children;
 				for(var key in citys) {
 					this.city_now.push(citys[key]);
