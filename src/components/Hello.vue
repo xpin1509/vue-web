@@ -9,9 +9,9 @@
 				<option>市/区</option>
 				<option v-for="item in city_now" :value="item.code">{{item.name}}</option>
 			</select>
-			<select name="" class="county_now input-brd">
-				<option>县/市</option>
-				<option v-for="item in county_now"></option>
+			<select name="" class="county_now input-brd" v-if="showCounty">
+				<option>区/县</option>
+				<option v-for="item in county_now">{{item.name}}</option>
 			</select>
 		</div>
 
@@ -27,8 +27,9 @@
 				city_now: [],
 				county_now: [],
 				data: {},
-				provinceId:0,
-				cityId:0
+				provinceId: 0,
+				cityId: 0,
+				showCounty: false
 			}
 		},
 		mounted: function() {
@@ -37,10 +38,6 @@
 			});
 		},
 		methods: {
-			selectVal: function(ele) {
-				this.selected = ele.target.value;
-				console.log(ele)
-			},
 			showArea: function() {
 				this.province_now = [];
 				this.$http.get('static/mockup/adc-tree.json').then(function(res) {
@@ -51,23 +48,26 @@
 				})
 			},
 			provinceChange: function(e) {
+				this.showCounty = false;
 				this.city_now = [];
-				var code = e.target.value;
-				var citys = this.data[code].children;
+				this.provinceId = e.target.value;
+				var citys = this.data[this.provinceId].children;
 				for(var key in citys) {
 					this.city_now.push(citys[key]);
 				}
 			},
 			cityChange: function(e) {
 				this.county_now = [];
-				var code = e.target.value;
-				if(this.data[code].children){
-					var citys = this.data[code].children;
-					for(var key in citys) {
-						this.county_now.push(citys[key]);
+				this.cityId = e.target.value;
+				var cityObj = this.data[this.provinceId].children[this.cityId];
+
+				if(cityObj.children !== undefined) {
+					this.showCounty = true;
+					var countys = cityObj.children;
+					for(var key in countys) {
+						this.county_now.push(countys[key]);
 					}
 				}
-				
 			}
 
 			/*getCookie: function(c_name) {
