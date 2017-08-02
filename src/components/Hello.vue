@@ -14,7 +14,7 @@
 				<option v-for="item in county_now">{{item.name}}</option>
 			</select>
 		</div>
-
+                <input type="button" id="verifyBtn" value="获取验证码" onclick="getVerifyCode(this)">
 	</div>
 </template>
 
@@ -29,7 +29,8 @@
 				data: {},
 				provinceId: 0,
 				cityId: 0,
-				showCounty: true
+				showCounty: true,
+                                nums:6
 			}
 		},
 		mounted: function() {
@@ -38,6 +39,21 @@
 			});
 		},
 		methods: {
+                        getVerifyCode:function (btn){
+			    btn.setAttribute("disabled",true);
+			    btn.value = "还剩" + this.nums + "秒";
+			    var timmer = setInterval(function(){
+				if(nums > 0){
+					nums --;
+					btn.value = "还剩" + this.nums + "秒";
+				}else{
+					clearInterval(timmer);
+					btn.removeAttribute("disabled");
+					btn.value = '获取验证码';
+					this.nums = 6;
+				}
+			    },1000)
+		        },
 			showArea: function() {
 				this.province_now = [];
 				this.$http.get('static/mockup/adc-tree.json').then(function(res) {
